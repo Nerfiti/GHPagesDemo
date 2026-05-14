@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Spotlight 3 | Module 8 | Итоговая контрольная работа — тренажёр</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4fa 0%, #e6ecf3 100%);
+            font-family: 'Comic Neue', 'Comic Neue', 'Comic Sans MS', 'Segoe UI Emoji', cursive;
+            padding: 16px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .app {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffffef;
+            border-radius: 60px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            padding: 20px 20px 30px;
+            border: 3px solid #c5e0f5;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            text-align: center;
+            color: #2c5a7a;
+            margin: 0 0 5px;
+        }
+
+        .sub {
+            text-align: center;
+            color: #4a7a9e;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #dce8f0;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            font-family: inherit;
+            padding: 10px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            color: #2c5a7a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #ffb56b;
+            color: #2c3e2b;
+            box-shadow: 0 3px 0 #c56a2c;
+            transform: translateY(-1px);
+        }
+
+        .game-panel {
+            background: #f9fbfd;
+            border-radius: 50px;
+            padding: 20px 16px 25px;
+            margin-top: 5px;
+            box-shadow: inset 0 1px 3px #fff, 0 6px 14px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #c25d1e;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ffb56b;
+        }
+
+        .game-btn {
+            background: #ffc896;
+            border: none;
+            font-size: 1rem;
+            font-family: inherit;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 8px 6px;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b97f48;
+            transition: 0.05s linear;
+        }
+        .game-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #b97f48; }
+
+        .feedback {
+            font-size: 1rem;
+            background: #eef3fa;
+            border-radius: 50px;
+            padding: 12px;
+            margin: 15px 0 0;
+            text-align: center;
+            color: #2c5a7a;
+        }
+
+        /* Vocabulary */
+        .match-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .vocab-item {
+            background: white;
+            border-radius: 50px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .vocab-emoji {
+            font-size: 2.5rem;
+            background: #eef2f7;
+            border-radius: 50px;
+            padding: 10px;
+            min-width: 80px;
+            text-align: center;
+        }
+        .vocab-options {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .vocab-opt {
+            background: #ffefdb;
+            border-radius: 50px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.05s;
+        }
+        .vocab-opt.selected { background: #ffb56b; color: white; }
+        .vocab-opt.correct { background: #a5d6a7; cursor: default; }
+
+        /* Grammar */
+        .grammar-text {
+            background: #fff8f0;
+            border-radius: 40px;
+            padding: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+        .grammar-example {
+            background: #fff0b3;
+            border-radius: 30px;
+            padding: 2px 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        .grammar-blank {
+            display: inline-block;
+            min-width: 100px;
+            background: #ffefdb;
+            border-radius: 30px;
+            padding: 4px 12px;
+            margin: 0 4px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+        }
+        .grammar-blank.filled { background: #a5d6a7; }
+        .grammar-blank.wrong { background: #ffcccb; animation: shake 0.3s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .grammar-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .grammar-opt {
+            background: #ffc896;
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .grammar-opt.used { display: none; }
+
+        /* Communication */
+        .comm-question {
+            background: white;
+            border-radius: 50px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .comm-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .comm-opt {
+            background: #ffefdb;
+            border-radius: 60px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .comm-opt.selected { background: #a5d6a7; }
+        .comm-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        /* Reading */
+        .reading-texts {
+            background: #fff8f0;
+            border-radius: 40px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .reading-person {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 5px solid #ffb56b;
+        }
+        .reading-name { font-weight: bold; color: #c25d1e; }
+        .reading-task {
+            background: white;
+            border-radius: 40px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .reading-blank {
+            display: inline-block;
+            min-width: 100px;
+            background: #ffefdb;
+            border-radius: 30px;
+            padding: 4px 12px;
+            margin: 0 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .reading-blank.filled { background: #a5d6a7; }
+
+        /* Collocations */
+        .colloc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .colloc-item {
+            background: white;
+            border-radius: 50px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .colloc-verb {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #c25d1e;
+        }
+        .colloc-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        .colloc-opt {
+            background: #ffefdb;
+            border-radius: 50px;
+            padding: 6px 15px;
+            cursor: pointer;
+        }
+        .colloc-opt.selected { background: #a5d6a7; }
+        .colloc-opt.wrong-answer { background: #ffcccb; }
+
+        /* Prepositions block */
+        .prep-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 3px dashed #ffb56b;
+        }
+        .prep-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #c25d1e;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* About */
+        .about-content { text-align: center; padding: 20px; }
+        .author-card { background: #fff5e6; border-radius: 50px; padding: 25px; margin: 20px 0; }
+        .donate-btn { background: #ffb56b; border: none; font-size: 1.2rem; padding: 10px 25px; border-radius: 60px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #c56a2c; }
+
+        @media (max-width: 700px) {
+            .match-grid { grid-template-columns: 1fr; }
+            .vocab-emoji { min-width: 60px; font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <h1>📘 Spotlight 3, Module 8 <span style="font-size:0.8rem;">Итоговая контрольная работа — тренажёр</span></h1>
+    <div class="sub">🎓 подготовься к контрольной: Vocabulary, Grammar, Communication, Reading & Writing</div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="vocabulary">1️⃣ 📖 Vocabulary</button>
+        <button class="tab-btn" data-tab="grammar">2️⃣ ✏️ Grammar</button>
+        <button class="tab-btn" data-tab="communication">3️⃣ 💬 Communication</button>
+        <button class="tab-btn" data-tab="reading">4️⃣ 📚 Reading & Writing</button>
+        <button class="tab-btn" data-tab="collocations">5️⃣ 🔗 Collocations</button>
+        <button class="tab-btn" data-tab="about">6️⃣ ℹ️ О проекте</button>
+    </div>
+
+    <!-- VOCABULARY -->
+    <div id="vocabularyPanel" class="game-panel">
+        <div class="section-title">📖 Look, read and match</div>
+        <div class="match-grid" id="vocabGrid"></div>
+        <div id="vocabFeedback" class="feedback">нажми на слово, чтобы соединить с картинкой</div>
+        <button id="checkVocabBtn" class="game-btn">✅ Проверить</button>
+        <button id="resetVocabBtn" class="game-btn">🔄 Начать заново</button>
+    </div>
+
+    <!-- GRAMMAR -->
+    <div id="grammarPanel" class="game-panel" style="display: none;">
+        <div class="section-title">✏️ Read and fill in</div>
+        <div class="grammar-text" id="grammarText"></div>
+        <div class="grammar-options" id="grammarOptions"></div>
+        <div id="grammarFeedback" class="feedback">нажми на пропуск, потом на слово внизу</div>
+        <button id="checkGrammarBtn" class="game-btn">✅ Проверить</button>
+        <button id="resetGrammarBtn" class="game-btn">🔄 Начать заново</button>
+    </div>
+
+    <!-- COMMUNICATION (подсказка только после проверки) -->
+    <div id="communicationPanel" class="game-panel" style="display: none;">
+        <div class="section-title">💬 Read and choose</div>
+        <div id="commContainer"></div>
+        <div class="comm-nav">
+            <button id="prevCommBtn" class="game-btn">◀ Назад</button>
+            <span id="commCounter" style="font-weight:bold; padding:10px;">1 / 10</span>
+            <button id="nextCommBtn" class="game-btn">Вперед ▶</button>
+        </div>
+        <button id="checkCommBtn" class="game-btn">✅ Проверить этот ответ</button>
+        <div id="commFeedback" class="feedback"></div>
+    </div>
+
+    <!-- READING & WRITING -->
+    <div id="readingPanel" class="game-panel" style="display: none;">
+        <div class="section-title">📚 Read and write the names</div>
+        <div class="reading-texts" id="readingTexts"></div>
+        <div class="reading-task" id="readingTask"></div>
+        <div id="readingFeedback" class="feedback">прочитай тексты и заполни пропуски именами</div>
+        <button id="checkReadingBtn" class="game-btn">✅ Проверить</button>
+        <button id="resetReadingBtn" class="game-btn">🔄 Начать заново</button>
+    </div>
+
+    <!-- COLLOCATIONS + PREPOSITIONS -->
+    <div id="collocationsPanel" class="game-panel" style="display: none;">
+        <div class="section-title">🔗 Match the verbs with the words</div>
+        <div class="colloc-grid" id="collocGrid"></div>
+        
+        <div class="prep-section">
+            <div class="prep-title">⏰ Предлоги времени (at / in / on)</div>
+            <div class="colloc-grid" id="prepGrid"></div>
+        </div>
+        
+        <div id="collocFeedback" class="feedback">соедини глагол с подходящим словом</div>
+        <button id="checkCollocBtn" class="game-btn">✅ Проверить всё</button>
+        <button id="resetCollocBtn" class="game-btn">🔄 Начать заново</button>
+    </div>
+
+    <!-- ABOUT -->
+    <div id="aboutPanel" class="game-panel" style="display: none;">
+        <div class="about-content">
+            <div class="author-card">
+                📝 <strong>Автор:</strong> Alla Penkova<br>
+                🤖 <strong>Источник:</strong> DeepSeek<br>
+                📚 <strong>Группа ВК:</strong> <a href="https://vk.com/allaenglishclass" target="_blank">vk.com/allaenglishclass</a><br>
+                🎓 <strong>Для кого:</strong> ученики 3 класса, Spotlight, Module 8
+            </div>
+            <div class="author-card">
+                <div>💖 Вы можете отблагодарить автора за работу 💖</div>
+                <button class="donate-btn" id="donateBtn">💰 Поддержать (СБП)</button>
+                <div style="font-size:0.8rem; margin-top:8px;">👇 При оплате выберите СБП → Сбербанк</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== VOCABULARY ==========
+    const vocabItems = [
+        { id: 1, emoji: "🎧🎵", text: "listen to music", matched: false },
+        { id: 2, emoji: "👫🎲", text: "visit my friend", matched: false },
+        { id: 3, emoji: "📱🎬", text: "watch a video", matched: false },
+        { id: 4, emoji: "😴🛌", text: "go to bed", matched: false },
+        { id: 5, emoji: "🍳🥛", text: "have breakfast", matched: false },
+        { id: 6, emoji: "🚿🧼", text: "have a shower", matched: false }
+    ];
+    let vocabSelections = {};
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function renderVocabulary() {
+        let grid = document.getElementById("vocabGrid");
+        grid.innerHTML = "";
+        vocabItems.forEach(item => {
+            let div = document.createElement("div");
+            div.className = "vocab-item";
+            div.innerHTML = `<div class="vocab-emoji">${item.emoji}</div><div class="vocab-options" data-id="${item.id}"></div>`;
+            let optsDiv = div.querySelector(".vocab-options");
+            let allTexts = vocabItems.map(i => i.text);
+            let shuffledTexts = shuffleArray([...allTexts]);
+            shuffledTexts.forEach(text => {
+                let btn = document.createElement("div");
+                btn.className = "vocab-opt";
+                if (vocabSelections[item.id] === text) btn.classList.add("selected");
+                if (item.matched) btn.classList.add("correct");
+                btn.textContent = text;
+                btn.onclick = () => { if (!item.matched) { vocabSelections[item.id] = text; renderVocabulary(); } };
+                optsDiv.appendChild(btn);
+            });
+            grid.appendChild(div);
+        });
+    }
+    function checkVocabulary() {
+        let correct = 0;
+        vocabItems.forEach(item => { if (vocabSelections[item.id] === item.text) { item.matched = true; correct++; } });
+        renderVocabulary();
+        document.getElementById("vocabFeedback").innerHTML = `✅ Правильно: ${correct} / ${vocabItems.length}`;
+        document.getElementById("vocabFeedback").style.background = correct === vocabItems.length ? "#d0f0d0" : "#ffe0cc";
+    }
+    function resetVocabulary() { vocabItems.forEach(item => { item.matched = false; }); vocabSelections = {}; renderVocabulary(); document.getElementById("vocabFeedback").innerHTML = "нажми на слово, чтобы соединить с картинкой"; document.getElementById("vocabFeedback").style.background = "#eef3fa"; }
+
+    // ========== GRAMMAR ==========
+    const grammarTextTemplate = `Saturday is Maya’s favourite day. She <span class="grammar-example">gets up</span> at 9 o'clock 
+__1__ the morning and she __2__ breakfast. Then, she __3__ her favourite cartoons on TV. __4__ 1 o'clock she has lunch with her family.
+In the afternoon, she __5__ her friends. At 6 o'clock, she comes __6__ and eats __7__. Then, she __8__ to music or reads a book.
+In the __9__, she plays with her toys, and at 11 o'clock she __10__ to bed. Maya loves Saturdays!`;
+    const grammarAnswers = { 1: "in", 2: "has", 3: "watches", 4: "At", 5: "visits", 6: "home", 7: "supper", 8: "listens", 9: "evening", 10: "goes" };
+    let grammarAvailable = ["has", "evening", "supper", "home", "listens", "watches", "visits", "in", "goes", "At"];
+    let grammarFills = {};
+    let selectedBlank = null;
+
+    function renderGrammar() {
+        let container = document.getElementById("grammarText");
+        let words = grammarTextTemplate.split(/(__\d+__)/g);
+        let html = "";
+        words.forEach(word => {
+            if (word.match(/__\d+__/)) {
+                let num = parseInt(word.match(/\d+/)[0]);
+                let filled = grammarFills[num];
+                let isWrong = grammarFills[num] && grammarFills[num] !== grammarAnswers[num];
+                html += `<span class="grammar-blank ${filled ? 'filled' : ''} ${isWrong ? 'wrong' : ''}" data-blank="${num}">${filled ? filled : "______"}</span>`;
+            } else { html += word; }
+        });
+        container.innerHTML = html;
+        document.querySelectorAll(".grammar-blank").forEach(blank => {
+            blank.onclick = (e) => {
+                e.stopPropagation();
+                let num = parseInt(blank.dataset.blank);
+                if (grammarFills[num]) {
+                    let word = grammarFills[num];
+                    delete grammarFills[num];
+                    grammarAvailable.push(word);
+                    grammarAvailable.sort();
+                    renderGrammar();
+                    renderGrammarOptions();
+                    document.getElementById("grammarFeedback").innerHTML = `↩️ Слово "${word}" возвращено в список. Попробуй выбрать другое.`;
+                } else {
+                    selectedBlank = num;
+                    document.getElementById("grammarFeedback").innerHTML = `🔍 Выбери слово для пропуска ${num}. Подсказка: посмотри на соседние слова!`;
+                }
+                document.getElementById("grammarFeedback").style.background = "#fff0c0";
+            };
+        });
+        renderGrammarOptions();
+    }
+
+    function renderGrammarOptions() {
+        let optsDiv = document.getElementById("grammarOptions");
+        optsDiv.innerHTML = "";
+        grammarAvailable.forEach(opt => {
+            let btn = document.createElement("div");
+            btn.className = "grammar-opt";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                if (selectedBlank) {
+                    grammarFills[selectedBlank] = opt;
+                    grammarAvailable = grammarAvailable.filter(w => w !== opt);
+                    selectedBlank = null;
+                    renderGrammar();
+                    document.getElementById("grammarFeedback").innerHTML = `✅ Пропуск заполнен. Нажми "Проверить" для оценки.`;
+                    document.getElementById("grammarFeedback").style.background = "#eef3fa";
+                } else {
+                    document.getElementById("grammarFeedback").innerHTML = "⚠️ Сначала нажми на пропуск в тексте!";
+                }
+            };
+            optsDiv.appendChild(btn);
+        });
+    }
+
+    function checkGrammar() {
+        let correct = 0;
+        let wrongList = [];
+        for (let i = 1; i <= 10; i++) {
+            if (grammarFills[i] === grammarAnswers[i]) correct++;
+            else if (grammarFills[i]) wrongList.push(i);
+        }
+        let fb = document.getElementById("grammarFeedback");
+        fb.innerHTML = `✅ Правильно: ${correct} / 10`;
+        if (correct === 10) { fb.style.background = "#d0f0d0"; return; }
+        fb.style.background = "#ffe0cc";
+        if (wrongList.length > 0) {
+            fb.innerHTML += `<br>⚠️ Ошибка в пропусках: ${wrongList.join(", ")}. `;
+            wrongList.forEach(num => {
+                let expected = grammarAnswers[num];
+                if (expected === "At" || expected === "in") fb.innerHTML += `Пропуск ${num}: нужен предлог времени. `;
+                else if (expected === "has") fb.innerHTML += `Пропуск ${num}: she + has (3-е лицо). `;
+                else if (expected === "home" || expected === "supper") fb.innerHTML += `Пропуск ${num}: слово из темы "Дом / Еда". `;
+                else if (expected === "listens" || expected === "watches" || expected === "visits" || expected === "goes") fb.innerHTML += `Пропуск ${num}: глагол в 3-м лице (he/she + -es). `;
+            });
+        }
+    }
+
+    function resetGrammar() { grammarFills = {}; grammarAvailable = ["has", "evening", "supper", "home", "listens", "watches", "visits", "in", "goes", "At"]; selectedBlank = null; renderGrammar(); document.getElementById("grammarFeedback").innerHTML = "нажми на пропуск, потом на слово внизу"; document.getElementById("grammarFeedback").style.background = "#eef3fa"; }
+
+    // ========== COMMUNICATION (подсказка только после проверки) ==========
+    const commSituations = [
+        { text: "A: What do you do in the afternoon?", correct: "I play soccer.", options: ["I play soccer.", "I'm painting pictures."], hint: "👑 В вопросе нет короля be и колокольчика ing → Present Simple. Помощник-волонтёр do → в ответе просто глагол (I play)." },
+        { text: "A: What are you doing now?", correct: "I'm watching cartoons.", options: ["I like watching cartoons.", "I'm watching cartoons."], hint: "👑 В вопросе есть король be (are) и колокольчик ing (doing) → Present Continuous (действие сейчас). В ответе тоже be + ing." },
+        { text: "A: What does she do on Sundays?", correct: "She visits her grandma.", options: ["She visits her grandma.", "She is visiting her grandma."], hint: "👑 Вопросительный помощник does (кузен do) → Present Simple. Для she/he/it добавляем кулон с сердечком (-s): she visitS." },
+        { text: "A: What is he doing at the moment?", correct: "He's reading a book.", options: ["He reads a book.", "He's reading a book."], hint: "👑 Король be (is) + колокольчик ing (doing) → Present Continuous. В ответе тоже is + ing." },
+        { text: "A: Do you like playing tennis?", correct: "Yes, I do.", options: ["Yes, I do.", "Yes, I like."], hint: "🔍 Общий вопрос начинается с Do... → в кратком ответе I do / I don't. Смотри на начало вопроса!" },
+        { text: "A: Does she like ice cream?", correct: "Yes, she does.", options: ["Yes, she does.", "Yes, she likes."], hint: "🔍 Общий вопрос начинается с Does... → в кратком ответе she does / she doesn't." },
+        { text: "A: What time do you get up?", correct: "I get up at 7 o'clock.", options: ["I get up at 7 o'clock.", "I am getting up at 7 o'clock."], hint: "👑 Вопрос о привычном времени → Present Simple. Помощник do → в ответе просто глагол (I get up)." },
+        { text: "A: Where does he go on Sundays?", correct: "He goes to the park.", options: ["He goes to the park.", "He is going to the park."], hint: "👑 On Sundays → привычное действие. Present Simple, does → he goES (кулон -es)." },
+        { text: "A: What are they doing?", correct: "They are playing football.", options: ["They play football.", "They are playing football."], hint: "👑 Король be (are) + колокольчик ing (doing) → Present Continuous. В ответе тоже are + ing." },
+        { text: "A: Do you watch cartoons?", correct: "Yes, I do.", options: ["Yes, I do.", "Yes, I watch."], hint: "🔍 Общий вопрос начинается с Do... → в кратком ответе I do / I don't." }
+    ];
+    let commCurrentIndex = 0;
+    let commSelections = {};
+
+    function renderCommunication() {
+        let q = commSituations[commCurrentIndex];
+        let container = document.getElementById("commContainer");
+        container.innerHTML = `
+            <div class="comm-question">
+                <div style="font-weight:bold; margin: 15px 0;">${q.text}</div>
+                <div class="comm-options" id="comm-${commCurrentIndex}"></div>
+            </div>
+        `;
+        let optsDiv = container.querySelector(".comm-options");
+        q.options.forEach(opt => {
+            let btn = document.createElement("div");
+            btn.className = "comm-opt";
+            if (commSelections[commCurrentIndex] === opt) btn.classList.add("selected");
+            btn.textContent = opt;
+            btn.onclick = () => { commSelections[commCurrentIndex] = opt; renderCommunication(); };
+            optsDiv.appendChild(btn);
+        });
+        document.getElementById("commCounter").innerHTML = `${commCurrentIndex + 1} / ${commSituations.length}`;
+        document.getElementById("commFeedback").innerHTML = "выбери правильный ответ";
+        document.getElementById("commFeedback").style.background = "#eef3fa";
+    }
+
+    function checkCommunication() {
+        let selected = commSelections[commCurrentIndex];
+        let q = commSituations[commCurrentIndex];
+        let fb = document.getElementById("commFeedback");
+        if (selected === q.correct) {
+            fb.innerHTML = `✅ Правильно! ${q.hint}`;
+            fb.style.background = "#d0f0d0";
+        } else {
+            fb.innerHTML = `❌ Неверно. ${q.hint} Правильный ответ: "${q.correct}".`;
+            fb.style.background = "#ffe0cc";
+        }
+    }
+    function nextComm() { if (commCurrentIndex < commSituations.length - 1) { commCurrentIndex++; renderCommunication(); } }
+    function prevComm() { if (commCurrentIndex > 0) { commCurrentIndex--; renderCommunication(); } }
+
+    // ========== READING & WRITING ==========
+    const readingPeople = [
+        { name: "Cindy", text: "I like Wednesdays. I have piano lessons with my teacher." },
+        { name: "Mary", text: "I love Sundays. I visit the zoo with my family and we have a great time there!" },
+        { name: "Ben", text: "My favourite day is Tuesday because I visit my best friend and we play basketball." },
+        { name: "Jerry", text: "I like Saturdays! I watch my favourite cartoons on TV." },
+        { name: "Beth", text: "My favourite day is Friday. After school, I go to the sports centre to swim and dive." }
+    ];
+    const readingTasks = [
+        { action: "play basketball", correctName: "Ben" },
+        { action: "have piano lessons", correctName: "Cindy" },
+        { action: "go to the sports centre", correctName: "Beth" },
+        { action: "visit the zoo", correctName: "Mary" },
+        { action: "watch cartoons", correctName: "Jerry" }
+    ];
+    let readingFills = {};
+
+    function renderReading() {
+        let textsDiv = document.getElementById("readingTexts");
+        textsDiv.innerHTML = "<strong>📖 Прочитай о детях:</strong>";
+        readingPeople.forEach(p => {
+            textsDiv.innerHTML += `<div class="reading-person"><div class="reading-name">${p.name}</div>${p.text}</div>`;
+        });
+        let taskDiv = document.getElementById("readingTask");
+        taskDiv.innerHTML = "<strong>✍️ Заполни пропуски именами:</strong><br><br>";
+        readingTasks.forEach((task, idx) => {
+            taskDiv.innerHTML += `<div>${idx + 1}. ${task.action} → <span class="reading-blank" data-task="${idx}">${readingFills[idx] ? readingFills[idx] : "______"}</span></div>`;
+        });
+        document.querySelectorAll(".reading-blank").forEach(blank => {
+            blank.onclick = () => {
+                let idx = parseInt(blank.dataset.task);
+                let names = readingPeople.map(p => p.name);
+                let nameList = names.join(", ");
+                let answer = prompt(`Введи имя для "${readingTasks[idx].action}". Варианты: ${nameList}`);
+                if (answer && names.includes(answer)) { readingFills[idx] = answer; renderReading(); }
+                else if (answer) alert(`Имя "${answer}" не найдено. Попробуй: ${nameList}`);
+            };
+        });
+    }
+
+    function checkReading() {
+        let correct = 0;
+        readingTasks.forEach((task, idx) => {
+            if (readingFills[idx] === task.correctName) correct++;
+        });
+        let fb = document.getElementById("readingFeedback");
+        fb.innerHTML = `✅ Правильно: ${correct} / ${readingTasks.length}`;
+        fb.style.background = correct === readingTasks.length ? "#d0f0d0" : "#ffe0cc";
+        if (correct !== readingTasks.length) {
+            fb.innerHTML += "<br>⚠️ Перечитай тексты внимательно! Имена написаны в начале каждого абзаца.";
+        }
+    }
+    function resetReading() { readingFills = {}; renderReading(); document.getElementById("readingFeedback").innerHTML = "прочитай тексты и заполни пропуски именами"; document.getElementById("readingFeedback").style.background = "#eef3fa"; }
+
+    // ========== COLLOCATIONS ==========
+    const collocations = [
+        { verb: "watch", correct: "TV", options: ["TV", "to music", "breakfast", "to bed"] },
+        { verb: "watch", correct: "a video", options: ["a video", "to music", "breakfast", "home"] },
+        { verb: "listen", correct: "to music", options: ["to music", "TV", "breakfast", "school"] },
+        { verb: "play", correct: "basketball", options: ["basketball", "TV", "to music", "home"] },
+        { verb: "go", correct: "to school", options: ["to school", "breakfast", "music", "TV"] },
+        { verb: "go", correct: "to bed", options: ["to bed", "breakfast", "music", "TV"] },
+        { verb: "have", correct: "breakfast", options: ["breakfast", "to bed", "TV", "music"] },
+        { verb: "have", correct: "lunch", options: ["lunch", "to bed", "TV", "music"] },
+        { verb: "have", correct: "supper", options: ["supper", "to bed", "TV", "music"] },
+        { verb: "get", correct: "up", options: ["up", "to school", "breakfast", "home"] },
+        { verb: "come", correct: "home", options: ["home", "to school", "up", "breakfast"] }
+    ];
+
+    // Предлоги времени (только один правильный вариант на каждый)
+    const prepositions = [
+        { verb: "at", correct: "5 o'clock", options: ["5 o'clock", "Monday", "the morning", "night"] },
+        { verb: "at", correct: "night", options: ["night", "Sunday", "the evening", "5 o'clock"] },
+        { verb: "in", correct: "the morning", options: ["the morning", "5 o'clock", "Monday", "night"] },
+        { verb: "in", correct: "the afternoon", options: ["the afternoon", "the morning", "the evening", "5 o'clock"] },
+        { verb: "in", correct: "the evening", options: ["the evening", "the morning", "the afternoon", "5 o'clock"] },
+        { verb: "on", correct: "Monday", options: ["Monday", "5 o'clock", "the morning", "night"] },
+        { verb: "on", correct: "Wednesday", options: ["Wednesday", "5 o'clock", "the morning", "night"] }
+    ];
+
+    let collocSelections = {};
+    let prepSelections = {};
+
+    function renderCollocations() {
+        let grid = document.getElementById("collocGrid");
+        grid.innerHTML = "";
+        collocations.forEach((item, idx) => {
+            let div = document.createElement("div");
+            div.className = "colloc-item";
+            div.innerHTML = `<div class="colloc-verb">${item.verb}</div><div class="colloc-options" data-idx="${idx}"></div>`;
+            let optsDiv = div.querySelector(".colloc-options");
+            let shuffledOpts = shuffleArray([...item.options]);
+            shuffledOpts.forEach(opt => {
+                let btn = document.createElement("div");
+                btn.className = "colloc-opt";
+                if (collocSelections[idx] === opt) btn.classList.add("selected");
+                btn.textContent = opt;
+                btn.onclick = () => { collocSelections[idx] = opt; renderCollocations(); };
+                optsDiv.appendChild(btn);
+            });
+            grid.appendChild(div);
+        });
+    }
+
+    function renderPrepositions() {
+        let grid = document.getElementById("prepGrid");
+        grid.innerHTML = "";
+        prepositions.forEach((item, idx) => {
+            let div = document.createElement("div");
+            div.className = "colloc-item";
+            div.innerHTML = `<div class="colloc-verb">${item.verb}</div><div class="colloc-options" data-idx="${idx}"></div>`;
+            let optsDiv = div.querySelector(".colloc-options");
+            let shuffledOpts = shuffleArray([...item.options]);
+            shuffledOpts.forEach(opt => {
+                let btn = document.createElement("div");
+                btn.className = "colloc-opt";
+                if (prepSelections[idx] === opt) btn.classList.add("selected");
+                btn.textContent = opt;
+                btn.onclick = () => { prepSelections[idx] = opt; renderPrepositions(); };
+                optsDiv.appendChild(btn);
+            });
+            grid.appendChild(div);
+        });
+    }
+
+    function checkAllCollocations() {
+        let correct1 = 0;
+        let wrongSelections = [];
+        collocations.forEach((item, idx) => {
+            if (collocSelections[idx] === item.correct) correct1++;
+            else if (collocSelections[idx]) wrongSelections.push({ verb: item.verb, selected: collocSelections[idx], correct: item.correct, section: "verbs" });
+        });
+        let correct2 = 0;
+        prepositions.forEach((item, idx) => {
+            if (prepSelections[idx] === item.correct) correct2++;
+            else if (prepSelections[idx]) wrongSelections.push({ verb: item.verb, selected: prepSelections[idx], correct: item.correct, section: "preps" });
+        });
+        let total = collocations.length + prepositions.length;
+        let totalCorrect = correct1 + correct2;
+        
+        // Подсветка неправильных ответов
+        document.querySelectorAll("#collocGrid .colloc-opt, #prepGrid .colloc-opt").forEach(opt => {
+            opt.classList.remove("wrong-answer");
+        });
+        wrongSelections.forEach(wrong => {
+            let selector = wrong.section === "verbs" ? "#collocGrid" : "#prepGrid";
+            document.querySelectorAll(`${selector} .colloc-opt`).forEach(opt => {
+                if (opt.textContent === wrong.selected && opt.parentElement.previousElementSibling?.textContent === wrong.verb) {
+                    opt.classList.add("wrong-answer");
+                }
+            });
+        });
+        
+        let fb = document.getElementById("collocFeedback");
+        fb.innerHTML = `✅ Правильно: ${totalCorrect} / ${total} (глаголы: ${correct1}/${collocations.length}, предлоги: ${correct2}/${prepositions.length})`;
+        fb.style.background = totalCorrect === total ? "#d0f0d0" : "#ffe0cc";
+        if (totalCorrect !== total) {
+            fb.innerHTML += "<br>⚠️ Неправильные ответы подсвечены красным. Вспомни: watch TV/video, listen to music, play basketball, go to school/to bed, have breakfast/lunch/supper, get up, come home. Предлоги: at + время, in + часть дня, on + день недели.";
+        }
+    }
+
+    function resetAllCollocations() {
+        collocSelections = {};
+        prepSelections = {};
+        renderCollocations();
+        renderPrepositions();
+        document.getElementById("collocFeedback").innerHTML = "соедини глагол с подходящим словом";
+        document.getElementById("collocFeedback").style.background = "#eef3fa";
+    }
+
+    // ========== TAB SWITCHING ==========
+    function switchTab(tabId) {
+        document.querySelectorAll('.game-panel').forEach(p => p.style.display = 'none');
+        let panel = document.getElementById(`${tabId}Panel`);
+        if (panel) panel.style.display = 'block';
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        let activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // EVENT LISTENERS
+    document.getElementById("checkVocabBtn").onclick = checkVocabulary;
+    document.getElementById("resetVocabBtn").onclick = resetVocabulary;
+    document.getElementById("checkGrammarBtn").onclick = checkGrammar;
+    document.getElementById("resetGrammarBtn").onclick = resetGrammar;
+    document.getElementById("checkCommBtn").onclick = checkCommunication;
+    document.getElementById("prevCommBtn").onclick = prevComm;
+    document.getElementById("nextCommBtn").onclick = nextComm;
+    document.getElementById("checkReadingBtn").onclick = checkReading;
+    document.getElementById("resetReadingBtn").onclick = resetReading;
+    document.getElementById("checkCollocBtn").onclick = checkAllCollocations;
+    document.getElementById("resetCollocBtn").onclick = resetAllCollocations;
+    document.getElementById("donateBtn")?.addEventListener("click", () => window.open('https://www.sberbank.ru/ru/choise_bank?requisiteNumber=79155623122&bankCode=100000000111', '_blank'));
+
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.onclick = () => switchTab(btn.dataset.tab));
+
+    // INIT
+    resetVocabulary();
+    renderGrammar();
+    renderCommunication();
+    renderReading();
+    renderCollocations();
+    renderPrepositions();
+    if (window.speechSynthesis) window.speechSynthesis.getVoices();
+</script>
+</body>
+</html>
