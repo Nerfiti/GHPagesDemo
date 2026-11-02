@@ -1,0 +1,70 @@
+{
+  "audio": {
+    "source": "E:/Мои документы Е/English/УМК/Power Up/Smart Start/PDF/Audioscript_Teachers_Resource_Book_Units 1-9",
+    "clips": [
+      {
+        "id": "v1",
+        "page": 14,
+        "start": 15.5,
+        "end": 19.65,
+        "expected": "table"
+      },
+      {
+        "id": "v2",
+        "page": 14,
+        "start": 22.7,
+        "end": 26.65,
+        "expected": "chair"
+      },
+      {
+        "id": "v3",
+        "page": 14,
+        "start": 29.85,
+        "end": 33.8,
+        "expected": "cupboard"
+      },
+      {
+        "id": "v4",
+        "page": 14,
+        "start": 36.6,
+        "end": 40.5,
+        "expected": "board"
+      },
+      {
+        "id": "v5",
+        "page": 14,
+        "start": 43.7,
+        "end": 47.85,
+        "expected": "bookcase"
+      },
+      {
+        "id": "p1",
+        "page": 15,
+        "start": 17.35,
+        "end": 23.5,
+        "expected": "blue pencil on the table"
+      },
+      {
+        "id": "p2",
+        "page": 15,
+        "start": 26.88,
+        "end": 32.55,
+        "expected": "red bag in the cupboard"
+      },
+      {
+        "id": "p3",
+        "page": 15,
+        "start": 35.38,
+        "end": 41.6,
+        "expected": "yellow book under the chair"
+      }
+    ],
+    "status": "Fragments aligned by pauses and audioscript sequence. Human listening confirmation is required in the file before play. No browser speech synthesis."
+  },
+  "images": {
+    "tool": "Built-in image_gen",
+    "atlas": "12 isolated classroom items and new course heroes, 4×3 atlas",
+    "places": "9 scenes: blue pencil, red bag, yellow book each on table/in cupboard/under chair"
+  },
+  "scope": "Unit 2 website release: five games, shared report. Includes scenic board, padded illustration sheet, fixed Family cover."
+}

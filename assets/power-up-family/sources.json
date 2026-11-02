@@ -1,0 +1,27 @@
+{
+  "course": "Power Up Start Smart",
+  "unit": "1 Friends and family",
+  "characters": [
+    "Lily",
+    "Ben"
+  ],
+  "games": [
+    "friends",
+    "family",
+    "train",
+    "sounds",
+    "memory",
+    "album"
+  ],
+  "audio": {
+    "words": "Короткие файлы из предоставленной папки PDF/Озвучка/Unit 1; book и cat — PDF/Озвучка/Hello unit. Их происхождение как оригинальной записи издателя не подтверждалось.",
+    "phonics": "Предоставленная запись Pupil’s Book, упражнение 1.13, страница 14, track 021; файл скопирован без изменения.",
+    "processing": "Записи скопированы побайтно, без ускорения и синтеза речи. Техническая проверка декодирования не заменяет прослушивание человеком."
+  },
+  "art": {
+    "tool": "Built-in image_gen",
+    "file": "assets/power-up-family/family.jpg",
+    "prompt": "12 illustrations in a 4 by 3 grid; consistent new family: dad with dark curls/orange shirt, auburn-haired mum/teal dress, Ben/blue overalls, Lily/blonde braids/yellow overalls, tan puppy; separate cat and blue book; colorful 3D storybook art, no text."
+  },
+  "limits": "Первая версия: словарь семьи и людей, начальные звуки b/c/m. Диалоги об имени/возрасте, сюжет Home time и упражнения рабочей тетради пока не добавлены. Качество звучания требует проверки пользователем на целевом устройстве."
+}
